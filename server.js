@@ -1,12 +1,24 @@
 const express = require ('express')
 const app = express()
+var path = require('path');
+var cors = require('cors')
 
+
+app.use(cors());
 app.use(express.json())
 app.set(('port', 3000))
 app.use ((req,res,next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     next();
 })
+
+var fs = require('fs');
+// logger middleware
+app.use(function(req, res, next) {
+    console.log("Request IP: " + req.url);
+    console.log("Request date: " + new Date());
+    next();
+});
 
 const MongoClient = require('mongodb').MongoClient;
 let db;
@@ -32,6 +44,21 @@ app.get('/collection/:collectionName', (req, res, next) => {
     )      
 })
 
+  // static file server middleware
+  app.use(function (req, res, next) {
+    // Uses path.join to find the path where the file should be
+    var filePath = path.join(__dirname, "images", req.url);
+    // Built-in fs.stat gets info about a file    
+    fs.stat(filePath, function (err, fileInfo) {
+        if (err) {
+            next();
+            return;
+        }
+        if (fileInfo.isFile()) res.sendFile(filePath);
+        else next();
+    });
+});
+
 app.listen(3000, () => {
     console.log('Express.js server running at localhost:3000')
 })
@@ -50,24 +77,22 @@ app.get('/collection/:collectionName/:id', (req, res, next) => {
     })
 })
 
-app.put('/collection/:collectionName/:id', (req, res, next) => {
+//to update modified count
+app.put("/collection/:collectionName/:id", (req, res, next) => {
     req.collection.updateOne(
-        {_id: new ObjectID(req.params.id)},
-        {$set: req.body},
-        {safe: true, multi: false},
- (e, result) => {
-    if (e) return next(e)
-    res.send((result) ? {msg: 'success'} : {msg: 'error'})
- }
-)
-})
+      { _id: new ObjectID(req.params.id) },
+      { $set: req.body },
+      { safe: true, multi: false },
+      (e, result) => {
+        if (e) return next(e);
+        res.send(result.modifiedCount === 1 ? { msg: "success" } : { msg: "error" });
+      }
+    );
+  });
 
-app.delete('/collection/:collectionName/:id', (req, res, next) =>{
-    req.collection.deleteOne(
-        {_id: ObjectID(req.params.id)},
-        (e, result) => {
-            if (e) return next(e)
-            res.send((result) ? {msg: 'success'}: {msg: 'error'})
-        })
-} 
-)
+
+// middleware error handler
+app.use(function(req,res){
+    res.status(404)
+    res.send("Error! Not found!")
+})

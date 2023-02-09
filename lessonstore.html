@@ -391,7 +391,7 @@
                         <br>
                         <label for="phoneno">Phone Number:</label>
                         <br>
-                        <input type="number" id="bumber" name="number" placeholder="Your phone number"
+                        <input type="number" id="number" name="number" placeholder="Your phone number"
                             v-model.trim="order.phoneno" />
                     </form>
                     <!-- order summary -->
@@ -448,7 +448,7 @@
             data: { //the data option
                 sitename: 'Vue.js Lessonstore', //the key 'sitename' matches the value of v-text earlier
                 //lessons called as items here 
-                items: items,
+                items: {},
 
                 cart: [], //array to store items in shopping cart
                 showItem: true,
@@ -459,6 +459,18 @@
                     phoneno: '',
                 },
             },
+
+            created: function () {
+          // this function will be run automatically
+          // when creating the Vue instance
+          fetch("http://localhost:3000/collection/items").then(function (response) {
+            response.json().then(function (json) {
+              // save the returned JSON object to 'school.lessons';
+              webstore.items = json;
+              console.log(webstore.items)
+            });
+          });
+        },
 
             methods: {
                 //adding item to cart
@@ -480,8 +492,46 @@
                 //to submit order after checkout button is clicked
                 submitForm() {
                     alert('Order submitted!');
-                    location.reload();
-                },
+                    insertOrder(this.order.name,this.order.phoneno,this.cart);
+                   // location.reload();
+                    
+
+                    function insertOrder(name,phoneno,itemsOrdered){
+              var items_Ordered = [];
+              var count = 1;
+              for (i = 0; i<itemsOrdered.length; i++){
+                if(itemsOrdered[i] == itemsOrdered[i+1]){
+                      count ++;
+                      continue;
+                  } else {
+                      items_Ordered.push({
+                          id: itemsOrdered[i]._id,
+                          subject:itemsOrdered[i].subject,
+                          location:itemsOrdered[i].location,
+                          price:itemsOrdered[i].price,    
+                      }); 
+                      count = 1; 
+                  }
+                  console.log(items_Ordered);
+              let orderMade = {"name":name,"phonenumber":phoneno,"orderedItems":items_Ordered};
+
+              fetch("http://localhost:3000/collection/orders", {
+                      method: 'POST',
+                      headers: {
+                          "Content-Type": "application/json",
+                         
+                      },
+                     
+                      body: JSON.stringify(orderMade),
+                  }).then(response => response.text()).then(responseJSON => {
+                      location.reload();
+                  });
+
+                }}},
+
+                
+
+                
                 //add to cart for lesson if space is available only (that is 5 in this case)
                 canAddToCart: function (item) {
                     return item.availableInventory > this.cartCount(item.id);
@@ -613,6 +663,8 @@
                     }
                     return productsArray.sort(compare);
                 },
+
+                
                 //searching for a lesson and making all searches valid by converting to lowercase
                 searchFiltering() {
                     return this.items.filter(item => {
