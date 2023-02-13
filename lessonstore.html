@@ -29,10 +29,12 @@
 
                 <!-- display search bar and sort radio btns only if lessons are displayed on screen  -->
                 <div id="searchBar" v-if="showItem">
+                    <div class="search lesson">
                     <p>
                         Search:
-                        <input type="text" class="findLesson" v-model="checkLesson" />
+                        <input type="text" class="findLesson" placeholder="look for lessons.." v-model="checkLesson" />
                     </p>
+                </div>
                 </div>
 
                 <!-- cart button  -->
@@ -105,8 +107,8 @@
 
             <!-- searching lesson in search bar -->
             <div v-if="checkLesson !== ''">
-                <div v-for="item in searchFiltering">
-                    <div id="lessonbox">
+                <!-- <div v-for="item in searchFiltering" v-text="item"></div> -->
+                    <div id="lessonbox" v-for="item in searchFiltering" :key="item.id">
                         <figure>
                             <img v-bind:src="item.Image" style="width:130px;height:110px;float:right;">
                         </figure>
@@ -128,9 +130,8 @@
                             <span v-for='n in 5-item.rating'><i class="fa-regular fa-star"></i></span>
                         </div>
                     </div>
-                </div>
             </div>
-
+            
             <!-- sorting products from low to high price display results -->
             <div v-else-if="sortMethod === 'lowToHighPrice'">
                 <div v-for="item in sortedProducts">
@@ -449,6 +450,7 @@
                 sitename: 'Vue.js Lessonstore', //the key 'sitename' matches the value of v-text earlier
                 //lessons called as items here 
                 items: {},
+                items_searched: [],
 
                 cart: [], //array to store items in shopping cart
                 showItem: true,
@@ -717,19 +719,37 @@
                     return productsArray.sort(compare);
                 },
 
-                filterItemList: function() {
-                    var searching = this.searchingInput.toLowerCase();
-                    console.log(this.searchingInput);
+                // filterItemList: function() {
+                //     var searching = this.searchingInput.toLowerCase();
+                //     console.log(this.searchingInput);
 
-                    if(this.searchingInput != ""){
-                        fetch("").then(
-                            function(response){
+                //     if(this.searchingInput != ""){
+                //         fetch("").then(
+                //             function(response){
                                 
-                            }
-                        )
-                    }
-                }
+                //             }
+                //         )
+                //     }
+                // }
                 
+                searchFiltering: function () {
+            var search = this.checkLesson;
+
+            if (this.checkLesson != "") {
+              fetch("http://localhost:3000/collection/items/" + search).then(
+                function (response) {
+                  response.json().then(function (json) {
+                    app.items_searched = JSON.parse(JSON.stringify(json));
+
+                    console.log(app.items_searched);
+                   // return json;
+                  });
+                }
+              );
+            }
+            return app.items_searched;
+           
+        }
                 // //searching for a lesson and making all searches valid by converting to lowercase
                 // searchFiltering() {
                 //     return this.items.filter(item => {
