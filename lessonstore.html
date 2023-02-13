@@ -493,10 +493,11 @@
                 submitForm() {
                     alert('Order submitted!');
                     insertOrder(this.order.name,this.order.phoneno,this.cart);
-                   // location.reload();
-                    
+                   updateCourse(this.cart);
+                 
 
                     function insertOrder(name,phoneno,itemsOrdered){
+
               var items_Ordered = [];
               var count = 1;
               for (i = 0; i<itemsOrdered.length; i++){
@@ -508,7 +509,8 @@
                           id: itemsOrdered[i]._id,
                           subject:itemsOrdered[i].subject,
                           location:itemsOrdered[i].location,
-                          price:itemsOrdered[i].price,    
+                          price:itemsOrdered[i].price*count,
+                          count: count    
                       }); 
                       count = 1; 
                   }
@@ -524,10 +526,61 @@
                      
                       body: JSON.stringify(orderMade),
                   }).then(response => response.text()).then(responseJSON => {
-                      location.reload();
-                  });
+                    updateCourse(itemsOrdered);
+                  
+                  })};
 
-                }}},
+
+                  function updateCourse(items) {
+              const updatedLessons = [];
+              for (i = 0; i < items.length; i++) {
+                console.log(items);
+                if (items.length === 0) {
+                  const error = "Cant do it";
+                } else {
+                  //POST request to add the order to the database.
+                  fetch(
+                    "http://localhost:3000/collection/items/" +
+                      items[i]._id,
+                    {
+                      method: 'PUT',
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ availableInventory: items[i].availableInventory }),
+                    }
+                  )
+                    .then((response) => response.json())
+                    .then((responseJSON) => {
+                      // console.log(orderData);
+                    });
+                }
+              }
+            }
+
+
+//                   function updateCourse(items){
+//  const updatedCourses=[];
+// for (i=0; i > items.length; i++){
+//    if(items.length===0){
+//     console.log("sss")
+//    }
+//   else{
+
+//        //POST request to add the order to the database.
+//       fetch("http://localhost:3000/collection/items/"+items[i]._id, {
+//           method: 'PUT',
+//            headers: {
+//                "Content-Type": "application/json",
+//              },
+//                           body: JSON.stringify({"availableInventory":items[i].availableInventory}),
+//           }).then(response => response.json()).then(responseJSON => {
+//           });
+//          }}
+ 
+//               }
+
+                }},
 
                 
 
@@ -664,22 +717,34 @@
                     return productsArray.sort(compare);
                 },
 
+                filterItemList: function() {
+                    var searching = this.searchingInput.toLowerCase();
+                    console.log(this.searchingInput);
+
+                    if(this.searchingInput != ""){
+                        fetch("").then(
+                            function(response){
+                                
+                            }
+                        )
+                    }
+                }
                 
-                //searching for a lesson and making all searches valid by converting to lowercase
-                searchFiltering() {
-                    return this.items.filter(item => {
-                        return (item.subject.toLowerCase().includes(this.checkLesson.toLowerCase()) ||
-                            item.location.toLowerCase().includes(this.checkLesson.toLowerCase()) ||
-                            // For the data saved as integers, they get cast to String which lets it match any typed numbers 
-                            item.price.toString().includes(this.checkLesson.toLowerCase()) ||
-                            item.id.toString().includes(this.checkLesson.toLowerCase()) ||
-                            item.availableInventory.toString().includes(this.checkLesson.toLowerCase()))
-                    })
-                },
-                //checking if form is validated
-                emptyFieldsThere() {
-                    return (!wordCriteriaRegExp.test(this.order.name) || !numCriteriaRegExp.test(this.order.phoneno))
-                },
+                // //searching for a lesson and making all searches valid by converting to lowercase
+                // searchFiltering() {
+                //     return this.items.filter(item => {
+                //         return (item.subject.toLowerCase().includes(this.checkLesson.toLowerCase()) ||
+                //             item.location.toLowerCase().includes(this.checkLesson.toLowerCase()) ||
+                //             // For the data saved as integers, they get cast to String which lets it match any typed numbers 
+                //             item.price.toString().includes(this.checkLesson.toLowerCase()) ||
+                //             item.id.toString().includes(this.checkLesson.toLowerCase()) ||
+                //             item.availableInventory.toString().includes(this.checkLesson.toLowerCase()))
+                //     })
+                // },
+                // //checking if form is validated
+                // emptyFieldsThere() {
+                //     return (!wordCriteriaRegExp.test(this.order.name) || !numCriteriaRegExp.test(this.order.phoneno))
+                // },
 
             }
         });

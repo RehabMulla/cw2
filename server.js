@@ -79,7 +79,7 @@ app.get('/collection/:collectionName/:id', (req, res, next) => {
 
 //to update modified count
 app.put("/collection/:collectionName/:id", (req, res, next) => {
-    req.collection.updateOne(
+    req.collection.update(
       { _id: new ObjectID(req.params.id) },
       { $set: req.body },
       { safe: true, multi: false },
