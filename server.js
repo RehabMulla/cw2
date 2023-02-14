@@ -71,16 +71,13 @@ app.post('/collection/:collectionName', (req, res, next) => {
 
      app.get("/collection/:collectionName/:search", (req, res, next) => {
         console.log(req.params.search);
-        // finding the objects using $or (or) condition with subject or location
-        // using $regex to cgeck if a object contains the specific string or character
-        // $options=i to check the Case insensitivity 
         req.collection.find({$or: [ {subject: { $regex: '^'+req.params.search, $options: "i" }}, {location: { $regex: '^'+req.params.search, $options: "i" }}]}).toArray((e, results) => {
           if (e) return next(e);
           console.log(results);
           res.send(JSON.parse(JSON.stringify(results)));
         });
       });
-      
+
 const ObjectID = require('mongodb').ObjectID;
 app.get('/collection/:collectionName/:id', (req, res, next) => {
     req.collection.findOne({ _id: new ObjectID(req.params.id)}, (e, result )=> {

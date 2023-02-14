@@ -400,7 +400,7 @@
                     <p>Name: {{order.name}}</p>
                     <p>Phoneno: {{order.phoneno}}</p>
                     <br>
-                    <!-- order button activaates if name and phoneno is added correctly and cart has atleast 1 item to purchase -->
+                    <!-- order button activates if name and phoneno is added correctly and cart has atleast 1 item to purchase -->
                     <div id="checkoutbtn">
                         <button disabled class="button" v-if="emptyFieldsThere">Checkout</button>
                         <button disabled class="button" v-else-if="cartItemCount < 1">Checkout</button>
@@ -560,28 +560,6 @@
               }
             }
 
-
-//                   function updateCourse(items){
-//  const updatedCourses=[];
-// for (i=0; i > items.length; i++){
-//    if(items.length===0){
-//     console.log("sss")
-//    }
-//   else{
-
-//        //POST request to add the order to the database.
-//       fetch("http://localhost:3000/collection/items/"+items[i]._id, {
-//           method: 'PUT',
-//            headers: {
-//                "Content-Type": "application/json",
-//              },
-//                           body: JSON.stringify({"availableInventory":items[i].availableInventory}),
-//           }).then(response => response.json()).then(responseJSON => {
-//           });
-//          }}
- 
-//               }
-
                 }},
 
                 
@@ -719,18 +697,7 @@
                     return productsArray.sort(compare);
                 },
 
-                // filterItemList: function() {
-                //     var searching = this.searchingInput.toLowerCase();
-                //     console.log(this.searchingInput);
-
-                //     if(this.searchingInput != ""){
-                //         fetch("").then(
-                //             function(response){
-                                
-                //             }
-                //         )
-                //     }
-                // }
+    
                 
                 searchFiltering: function () {
             var search = this.checkLesson;
@@ -750,22 +717,7 @@
             return app.items_searched;
            
         }
-                // //searching for a lesson and making all searches valid by converting to lowercase
-                // searchFiltering() {
-                //     return this.items.filter(item => {
-                //         return (item.subject.toLowerCase().includes(this.checkLesson.toLowerCase()) ||
-                //             item.location.toLowerCase().includes(this.checkLesson.toLowerCase()) ||
-                //             // For the data saved as integers, they get cast to String which lets it match any typed numbers 
-                //             item.price.toString().includes(this.checkLesson.toLowerCase()) ||
-                //             item.id.toString().includes(this.checkLesson.toLowerCase()) ||
-                //             item.availableInventory.toString().includes(this.checkLesson.toLowerCase()))
-                //     })
-                // },
-                // //checking if form is validated
-                // emptyFieldsThere() {
-                //     return (!wordCriteriaRegExp.test(this.order.name) || !numCriteriaRegExp.test(this.order.phoneno))
-                // },
-
+               
             }
         });
     </script>
