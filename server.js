@@ -86,7 +86,7 @@ app.get('/collection/:collectionName/:id', (req, res, next) => {
     })
 })
 
-//to update modified count
+//to update modified count in lessons
 app.put("/collection/:collectionName/:id", (req, res, next) => {
     req.collection.update(
       { _id: new ObjectID(req.params.id) },
