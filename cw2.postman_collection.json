@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "efe7ad42-dd65-4f12-bb40-618b1bd177ef",
+		"name": "cw2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19956131"
+	},
+	"item": [
+		{
+			"name": "get lessons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/collection/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"collection",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Rehab\", \r\n        \"phonenumber\": \"050-5839584\",\r\n        \"lessonstaken\": 2,\r\n        \"lesson_id\": \"63e211ffc22642e1b55083c7\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/collection/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"collection",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reducing inventory count",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"availableInventory\": 3}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/collection/items/63e211ffc22642e1b55083c7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"collection",
+						"items",
+						"63e211ffc22642e1b55083c7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
