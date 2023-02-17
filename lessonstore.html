@@ -107,7 +107,6 @@
 
             <!-- searching lesson in search bar -->
             <div v-if="checkLesson !== ''">
-                <!-- <div v-for="item in searchFiltering" v-text="item"></div> -->
                     <div id="lessonbox" v-for="item in searchFiltering" :key="item.id">
                         <figure>
                             <img v-bind:src="item.Image" style="width:130px;height:110px;float:right;">
@@ -497,7 +496,7 @@
                     insertOrder(this.order.name,this.order.phoneno,this.cart);
                    updateCourse(this.cart);
                  
-
+                    //inserting orders function where count of lesson is also tracked
                     function insertOrder(name,phoneno,itemsOrdered){
 
               var items_Ordered = [];
@@ -518,7 +517,7 @@
                   }
                   console.log(items_Ordered);
               let orderMade = {"name":name,"phonenumber":phoneno,"orderedItems":items_Ordered};
-
+             //post used to post the order in order array 
               fetch("http://localhost:3000/collection/orders", {
                       method: 'POST',
                       headers: {
@@ -532,13 +531,13 @@
                   
                   })};
 
-
+                 //function to update course using PUT
                   function updateCourse(items) {
               const updatedLessons = [];
               for (i = 0; i < items.length; i++) {
                 console.log(items);
                 if (items.length === 0) {
-                  const error = "Cant do it";
+                  const error = "Cannot update";
                 } else {
                   //POST request to add the order to the database.
                   fetch(
@@ -561,9 +560,6 @@
             }
 
                 }},
-
-                
-
                 
                 //add to cart for lesson if space is available only (that is 5 in this case)
                 canAddToCart: function (item) {
@@ -698,7 +694,7 @@
                 },
 
     
-            
+            //search while typing function 
                 searchFiltering: function () {
             var search = this.checkLesson;
 

@@ -59,17 +59,18 @@ app.get('/collection/:collectionName', (req, res, next) => {
         else next();
     });
 });
-
+//to show app is running
 app.listen(3000, () => {
     console.log('Express.js server running at localhost:3000')
 })
-
+//to post collection
 app.post('/collection/:collectionName', (req, res, next) => {  
     req.collection.insertOne(req.body, (e, results) => {
         if (e) return next(e)    
         res.send(results.ops) 
      })})
 
+     //to search for lessons using subject and location
      app.get("/collection/:collectionName/:search", (req, res, next) => {
         console.log(req.params.search);
         req.collection.find({$or: [ {subject: { $regex: '^'+req.params.search, $options: "i" }}, {location: { $regex: '^'+req.params.search, $options: "i" }}]}).toArray((e, results) => {
@@ -79,6 +80,7 @@ app.post('/collection/:collectionName', (req, res, next) => {
         });
       });
 
+      
 const ObjectID = require('mongodb').ObjectID;
 app.get('/collection/:collectionName/:id', (req, res, next) => {
     req.collection.findOne({ _id: new ObjectID(req.params.id)}, (e, result )=> {
