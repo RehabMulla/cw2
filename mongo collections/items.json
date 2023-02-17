@@ -1,0 +1,101 @@
+[{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083c9"
+  },
+  "subject": "Biology",
+  "location": "Abu Dhabi",
+  "price": 1234,
+  "Image": "images/bio.jpg",
+  "availableInventory": 1,
+  "rating": 2
+},{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083ca"
+  },
+  "subject": "Physics",
+  "location": "Mumbai",
+  "price": 7040,
+  "Image": "images/phy.jpg",
+  "availableInventory": 2,
+  "rating": 3
+},{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083cb"
+  },
+  "subject": "Chemistry",
+  "location": "Wakanda",
+  "price": 1230,
+  "Image": "images/chem.jpg",
+  "availableInventory": 5,
+  "rating": 2
+},{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083cc"
+  },
+  "subject": "History",
+  "location": "Dubai",
+  "price": 5600,
+  "Image": "images/history.jpg",
+  "availableInventory": 5,
+  "rating": 3
+},{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083cd"
+  },
+  "subject": "Economics",
+  "location": "Ajman",
+  "price": 4560,
+  "Image": "images/eco.jpg",
+  "availableInventory": 5,
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083ce"
+  },
+  "subject": "Geography",
+  "location": "Ukraine",
+  "price": 4740,
+  "Image": "images/geo.jpg",
+  "availableInventory": 5,
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083cf"
+  },
+  "subject": "Political Science",
+  "location": "Maldives",
+  "price": 7990,
+  "Image": "images/polsci.jpg",
+  "availableInventory": 5,
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "63e211ffc22642e1b55083d0"
+  },
+  "subject": "Computer Science",
+  "location": "Rome",
+  "price": 10040,
+  "Image": "images/compsci.jpg",
+  "availableInventory": 5,
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "63ea85840d6090500015677c"
+  },
+  "subject": "Math",
+  "location": "Mumbai",
+  "price": 7090,
+  "Image": "images/math.jpg",
+  "availableInventory": 5,
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "63ea85c80d6090500015677e"
+  },
+  "subject": "Advanced Math",
+  "location": "Bangalore",
+  "price": 1240,
+  "Image": "images/advmath.jpg",
+  "availableInventory": 5,
+  "rating": 5
+}]
