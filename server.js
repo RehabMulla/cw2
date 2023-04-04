@@ -14,6 +14,8 @@ app.use ((req,res,next) => {
 })
 
 var fs = require('fs');
+
+
 // logger middleware
 app.use(function(req, res, next) {
     console.log("Request IP: " + req.url);
@@ -21,12 +23,14 @@ app.use(function(req, res, next) {
     next();
 });
 
-const MongoClient = require('mongodb').MongoClient;
-let db;
+ const MongoClient = require('mongodb').MongoClient;
+ let db;
 
-MongoClient.connect('mongodb+srv://RehabMulla:12345@cluster0.hzekf69.mongodb.net', (err, client) => {  
-      db = client.db('School_Lessons')
-    })
+ MongoClient.connect('mongodb+srv://RehabMulla:12345@cluster0.hzekf69.mongodb.net', (err, client) => {  
+       db = client.db('School_Lessons')
+     })
+
+
 //display a message for root path to show that API is working
     app.get('/', (req, res, next) => { 
     res.send('Select a collection, e.g., /collection/messages')
@@ -64,42 +68,42 @@ app.listen(3000, () => {
     console.log('Express.js server running at localhost:3000')
 })
 //to post collection
-app.post('/collection/:collectionName', (req, res, next) => {  
-    req.collection.insertOne(req.body, (e, results) => {
-        if (e) return next(e)    
-        res.send(results.ops) 
-     })})
+ app.post('/collection/:collectionName', (req, res, next) => {  
+     req.collection.insertOne(req.body, (e, results) => {
+         if (e) return next(e)    
+         res.send(results.ops) 
+      })})
 
-     //to search for lessons using subject and location
-     app.get("/collection/:collectionName/:search", (req, res, next) => {
-        console.log(req.params.search);
-        req.collection.find({$or: [ {subject: { $regex: '^'+req.params.search, $options: "i" }}, {location: { $regex: '^'+req.params.search, $options: "i" }}]}).toArray((e, results) => {
-          if (e) return next(e);
+      //to search for lessons using subject and location
+      app.get("/collection/:collectionName/:search", (req, res, next) => {
+         console.log(req.params.search);
+         req.collection.find({$or: [ {subject: { $regex: '^'+req.params.search, $options: "i" }}, {location: { $regex: '^'+req.params.search, $options: "i" }}]}).toArray((e, results) => {
+           if (e) return next(e);
           console.log(results);
           res.send(JSON.parse(JSON.stringify(results)));
         });
-      });
+       });
 
       
-const ObjectID = require('mongodb').ObjectID;
-app.get('/collection/:collectionName/:id', (req, res, next) => {
-    req.collection.findOne({ _id: new ObjectID(req.params.id)}, (e, result )=> {
-        if (e) return next (e)
-        res.send(result)
-    })
-})
+ const ObjectID = require('mysql').ObjectID;
+ app.get('/collection/:collectionName/:id', (req, res, next) => {
+     req.collection.findOne({ _id: new ObjectID(req.params.id)}, (e, result )=> {
+         if (e) return next (e)
+         res.send(result)
+     })
+ })
 
-//to update modified count in lessons
-app.put("/collection/:collectionName/:id", (req, res, next) => {
-    req.collection.update(
-      { _id: new ObjectID(req.params.id) },
-      { $set: req.body },
-      { safe: true, multi: false },
-      (e, result) => {
-        if (e) return next(e);
-        res.send(result.modifiedCount === 1 ? { msg: "success" } : { msg: "error" });
-      }
-    );
+ //to update modified count in lessons
+ app.put("/collection/:collectionName/:id", (req, res, next) => {
+     req.collection.update(
+       { _id: new ObjectID(req.params.id) },
+       { $set: req.body },
+       { safe: true, multi: false },
+     (e, result) => {
+         if (e) return next(e);
+       res.send(result.modifiedCount === 1 ? { msg: "success" } : { msg: "error" });
+     }
+   );
   });
 
 
